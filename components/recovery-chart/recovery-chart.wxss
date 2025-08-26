@@ -1,0 +1,12 @@
+/* components/recovery-chart/recovery-chart.wxss */
+.chart-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}

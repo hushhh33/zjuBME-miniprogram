@@ -1,0 +1,30 @@
+/* pages/plan/plan.wxss */
+.day-tabs {
+  margin-bottom: 20px;
+}
+
+.exercise-item {
+  transition: transform 0.2s;
+}
+
+.exercise-item:active {
+  transform: scale(0.99);
+}
+
+.exercise-actions {
+  margin-top: 12px;
+}
+
+.play-btn, .log-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.notes-card {
+  padding: 16px;
+}
+
+.doctor-tip {
+  padding: 16px;
+  margin-bottom: 24px;
+}

@@ -1,0 +1,160 @@
+/* 全局样式 */
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #F5F5F7;
+  color: #1D1D1F;
+  min-height: 100%;
+}
+
+/* 颜色变量 */
+:root {
+  --primary: #4A90E2;      /* 淡蓝主色 */
+  --secondary: #4CD964;    /* 淡绿 */
+  --pain: #FF6B6B;         /* 淡粉/红 */
+  --swelling: #FFB86C;     /* 淡橙 */
+  --function: #9D4EDD;     /* 淡紫 */
+  --gray-light: #F5F5F7;
+  --gray-medium: #E5E5EA;
+  --gray-dark: #6E6E73;
+  --white: #FFFFFF;
+  --black: #1D1D1F;
+}
+
+/* 工具类 */
+.container {
+  padding: 16px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: block;
+  color: var(--black);
+}
+
+.card {
+  background-color: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s;
+}
+
+.card-shadow:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 16px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:active {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.btn-secondary:active {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
+
+.btn-pain {
+  background-color: var(--pain);
+  color: white;
+}
+
+.btn-pain:active {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
+
+/* 表单元素样式 */
+.form-item {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--black);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gray-medium);
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* 进度条样式 */
+.progress-bar {
+  height: 8px;
+  background-color: var(--gray-medium);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* 标签页样式 */
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  white-space: nowrap;
+}
+
+.tab {
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--gray-dark);
+  background-color: var(--gray-light);
+}
+
+.tab.active {
+  color: var(--white);
+  background-color: var(--primary);
+}

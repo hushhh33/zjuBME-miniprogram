@@ -1,0 +1,144 @@
+<view class="container">
+  <view class="page-header" style="margin-bottom: 20px;">
+    <text class="header-title" style="font-size: 22px; font-weight: 600;">康复训练计划</text>
+    <text class="header-desc" style="font-size: 14px; color: var(--gray-dark); display: block; margin-top: 4px;">根据您的恢复阶段，定制专属训练计划</text>
+  </view>
+  
+  <!-- 阶段信息 -->
+  <view class="stage-info card card-shadow" style="margin-bottom: 24px;">
+    <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <text style="font-size: 16px; font-weight: 600;">当前阶段：术后第2阶段（2-4周）</text>
+      <text style="font-size: 14px; color: var(--primary);">剩余7天</text>
+    </view>
+    
+    <view style="margin-bottom: 16px;">
+      <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：</text>
+      <view style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+        <text style="font-size: 14px; color: var(--gray-dark);">• 膝关节活动度达到90°-110°</text>
+        <text style="font-size: 14px; color: var(--gray-dark);">• 减轻肿胀和疼痛</text>
+        <text style="font-size: 14px; color: var(--gray-dark);">• 股四头肌肌力恢复至3级+</text>
+        <text style="font-size: 14px; color: var(--gray-dark);">• 能够独立完成日常活动</text>
+      </view>
+    </view>
+    
+    <view class="stage-progress">
+      <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <text style="font-size: 15px;">阶段完成度</text>
+        <text style="font-size: 15px; font-weight: 600;">75%</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: 75%; background-color: var(--primary);"></view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 每日计划 -->
+  <view class="daily-plan section">
+    <text class="section-title">本周训练计划</text>
+    
+    <view class="day-tabs" style="display: flex; overflow-x: auto; margin-bottom: 16px;">
+      <view class="day-tab {{currentDay === 0 ? 'active' : ''}}" bindtap="switchDay" data-day="0" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 0 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周一
+      </view>
+      <view class="day-tab {{currentDay === 1 ? 'active' : ''}}" bindtap="switchDay" data-day="1" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 1 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周二
+      </view>
+      <view class="day-tab {{currentDay === 2 ? 'active' : ''}}" bindtap="switchDay" data-day="2" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 2 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周三
+      </view>
+      <view class="day-tab {{currentDay === 3 ? 'active' : ''}}" bindtap="switchDay" data-day="3" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 3 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周四
+      </view>
+      <view class="day-tab {{currentDay === 4 ? 'active' : ''}}" bindtap="switchDay" data-day="4" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 4 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周五
+      </view>
+      <view class="day-tab {{currentDay === 5 ? 'active' : ''}}" bindtap="switchDay" data-day="5" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 5 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周六
+      </view>
+      <view class="day-tab {{currentDay === 6 ? 'active' : ''}}" bindtap="switchDay" data-day="6" 
+            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 6 ? 'background-color: var(--primary); color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+        周日
+      </view>
+    </view>
+    
+    <view class="exercise-list">
+      <view class="exercise-item card card-shadow" wx:for="{{currentDayExercises}}" wx:key="id" 
+            style="display: flex; padding: 16px; margin-bottom: 16px; border-radius: 12px; background-color: white;">
+        <view class="exercise-icon" style="width: 48px; height: 48px; border-radius: 8px; background-color: #E8F4FD; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+          <icon type="success" size="24" color="#4A90E2" />
+        </view>
+        <view class="exercise-info" style="flex: 1;">
+          <view style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <text class="exercise-name" style="font-size: 16px; font-weight: 600; display: block;">{{item.name}}</text>
+            <view class="difficulty-tag" style="padding: 2px 8px; border-radius: 12px; font-size: 12px; {{item.difficulty === '初级' ? 'background-color: #E6F7F0; color: #4CD964;' : item.difficulty === '中级' ? 'background-color: #E8F4FD; color: #4A90E2;' : 'background-color: #FFEBE6; color: #FF6B6B;'}}">
+              {{item.difficulty}}
+            </view>
+          </view>
+          <text class="exercise-target" style="font-size: 14px; color: var(--gray-dark); display: block; margin: 4px 0;">目标：{{item.target}}</text>
+          <text class="exercise-sets" style="font-size: 14px; color: var(--gray-dark); display: block;">训练量：{{item.sets}} 组 × {{item.reps}}</text>
+          
+          <view class="exercise-actions" style="display: flex; margin-top: 12px;">
+            <button class="play-btn" bindtap="playExerciseVideo" data-id="{{item.id}}" 
+                    style="display: flex; align-items: center; padding: 6px 12px; background-color: var(--primary); color: white; border-radius: 6px; font-size: 14px;">
+              <icon type="playcircle" size="16" style="margin-right: 4px;" /> 示范视频
+            </button>
+            <button class="log-btn" bindtap="goToLogExercise" data-id="{{item.id}}" 
+                    style="display: flex; align-items: center; padding: 6px 12px; background-color: transparent; color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; font-size: 14px; margin-left: 12px;">
+              <icon type="edit" size="16" style="margin-right: 4px;" /> 记录
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 注意事项 -->
+  <view class="notes-section section">
+    <text class="section-title">训练注意事项</text>
+    <view class="notes-card card card-shadow">
+      <view class="note-item" style="display: flex; margin-bottom: 16px;">
+        <view class="note-icon" style="width: 24px; height: 24px; border-radius: 50%; background-color: #FFEBE6; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+          <icon type="warn" size="16" color="#FF6B6B" />
+        </view>
+        <text class="note-text" style="font-size: 14px; color: var(--gray-dark);">训练时疼痛应控制在3分以内（0-10分评分法），如超过应立即停止</text>
+      </view>
+      <view class="note-item" style="display: flex; margin-bottom: 16px;">
+        <view class="note-icon" style="width: 24px; height: 24px; border-radius: 50%; background-color: #FFEBE6; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+          <icon type="warn" size="16" color="#FF6B6B" />
+        </view>
+        <text class="note-text" style="font-size: 14px; color: var(--gray-dark);">每次训练后应进行冰敷15-20分钟，以减轻肿胀和疼痛</text>
+      </view>
+      <view class="note-item" style="display: flex; margin-bottom: 16px;">
+        <view class="note-icon" style="width: 24px; height: 24px; border-radius: 50%; background-color: #FFEBE6; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+          <icon type="warn" size="16" color="#FF6B6B" />
+        </view>
+        <text class="note-text" style="font-size: 14px; color: var(--gray-dark);">如出现关节卡住、弹响加重或肿胀明显增加，应暂停训练并咨询医生</text>
+      </view>
+      <view class="note-item" style="display: flex;">
+        <view class="note-icon" style="width: 24px; height: 24px; border-radius: 50%; background-color: #E6F7F0; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+          <icon type="info" size="16" color="#4CD964" />
+        </view>
+        <text class="note-text" style="font-size: 14px; color: var(--gray-dark);">建议每天饮水量保持在2000ml以上，有助于减轻炎症和促进恢复</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 医生提示 -->
+  <view class="doctor-tip card card-shadow" style="margin-top: 24px; background-color: #E8F4FD; border-left: 4px solid var(--primary);">
+    <view style="display: flex; align-items: flex-start;">
+      <view style="width: 36px; height: 36px; border-radius: 50%; background-color: white; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+        <icon type="success" size="20" color="#4A90E2" />
+      </view>
+      <view>
+        <text style="font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px;">医生提示</text>
+        <text style="font-size: 14px; color: var(--gray-dark); line-height: 1.5;">您的恢复进度良好，建议在本周增加1-2次平衡训练，如单腿站立（每次30秒，3组）。下次复诊时间：术后42天。</text>
+      </view>
+    </view>
+  </view>
+</view>

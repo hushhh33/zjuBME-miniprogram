@@ -1,0 +1,26 @@
+/* pages/home/home.wxss */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metrics-grid {
+  margin-bottom: 16px;
+}
+
+.task-list .task-item:last-child {
+  border-bottom: none;
+}
+
+.chart-container {
+  width: 100%;
+  height: 280px;
+}
+
+/* 响应式调整 */
+@media (max-width: 320px) {
+  .action-text {
+    font-size: 12px;
+  }
+}

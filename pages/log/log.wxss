@@ -1,0 +1,26 @@
+/* pages/log/log.wxss */
+.tab-content {
+  margin-top: 16px;
+}
+
+.form-card {
+  margin-bottom: 24px;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.photos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.training-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
