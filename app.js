@@ -1,17 +1,21 @@
 const AV = require('./libs/av-core-min');
 const adapters = require('./libs/leancloud-adapters-weapp.js');
 
+// 初始化 LeanCloud
 AV.setAdapters(adapters);
 AV.init({
-  appId:'JqAWaGQweN6bkKFnnoWGolmX-gzGzoHsz',
-  appKey:'ARxDQBmDjxKlKzxSEe1uzRHi',
-  serverURLs:"https://jqawagqw.lc-cn-n1-shared.com",
+  appId: 'JqAWaGQweN6bkKFnnoWGolmX-gzGzoHsz',
+  appKey: 'ARxDQBmDjxKlKzxSEe1uzRHi',
+  serverURLs: "https://jqawagqw.lc-cn-n1-shared.com",
 })
 
 App({
   onLaunch() {
     // 初始化本地存储
     this.initStorage();
+    
+    // 检查当前登录状态
+    this.checkLoginStatus();
     
     // 获取系统信息
     wx.getSystemInfo({
@@ -22,9 +26,71 @@ App({
     });
   },
   
+  // 检查登录状态
+  checkLoginStatus() {
+    const currentUser = AV.User.current();
+    if (currentUser) {
+      // 已登录，更新全局用户信息
+      this.globalData.user = currentUser.toJSON();
+      wx.setStorageSync('currentUser', currentUser.toJSON());
+    } else {
+      // 未登录，清除本地缓存
+      wx.removeStorageSync('currentUser');
+      this.globalData.user = null;
+    }
+  },
+  
+  // 用户注册
+  async register(username, password, userInfo = {}) {
+    try {
+      const user = new AV.User();
+      user.setUsername(username);
+      user.setPassword(password);
+      
+      // 设置额外用户信息
+      Object.keys(userInfo).forEach(key => {
+        user.set(key, userInfo[key]);
+      });
+      
+      await user.signUp();
+      const currentUser = AV.User.current();
+      this.globalData.user = currentUser.toJSON();
+      wx.setStorageSync('currentUser', currentUser.toJSON());
+      return currentUser.toJSON();
+    } catch (error) {
+      console.error('注册失败:', error);
+      throw error;
+    }
+  },
+  
+  // 用户登录
+  async login(username, password) {
+    try {
+      const user = await AV.User.logIn(username, password);
+      this.globalData.user = user.toJSON();
+      wx.setStorageSync('currentUser', user.toJSON());
+      return user.toJSON();
+    } catch (error) {
+      console.error('登录失败:', error);
+      throw error;
+    }
+  },
+  
+  // 退出登录
+  logout() {
+    AV.User.logOut();
+    this.globalData.user = null;
+    wx.removeStorageSync('currentUser');
+  },
+  
+  // 获取当前登录用户
+  getCurrentUser() {
+    return this.globalData.user || wx.getStorageSync('currentUser');
+  },
+  
   // 初始化本地存储数据
   initStorage() {
-    // 检查是否有用户数据
+    // 检查是否有用户数据（兼容原有本地用户信息）
     const userInfo = wx.getStorageSync('userInfo');
     if (!userInfo) {
       wx.setStorageSync('userInfo', {
@@ -213,17 +279,24 @@ App({
     wx.setStorageSync('trainingPlans', updatedTasks);
   },
   
-  // 保存康复记录
+  // 保存康复记录（添加用户关联）
   saveRecoveryRecord(record) {
     const records = wx.getStorageSync('recoveryRecords') || [];
     const today = new Date().toISOString().split('T')[0];
+    const currentUser = this.getCurrentUser();
+    
+    // 添加用户ID关联
+    const recordWithUser = {
+      ...record,
+      userId: currentUser?.objectId || 'anonymous'
+    };
     
     // 检查是否已有今日记录
     const existingIndex = records.findIndex(r => r.date === today);
     if (existingIndex >= 0) {
-      records[existingIndex] = { ...records[existingIndex], ...record };
+      records[existingIndex] = { ...records[existingIndex], ...recordWithUser };
     } else {
-      records.push({ date: today, ...record });
+      records.push({ date: today, ...recordWithUser });
     }
     
     wx.setStorageSync('recoveryRecords', records);
@@ -266,10 +339,15 @@ App({
     }
   },
   
-  // 获取康复趋势数据
+  // 获取康复趋势数据（按用户筛选）
   getRecoveryTrendData() {
     const records = wx.getStorageSync('recoveryRecords') || [];
-    const last7Days = records.slice(-7);
+    const currentUser = this.getCurrentUser();
+    const userId = currentUser?.objectId || 'anonymous';
+    
+    // 筛选当前用户的记录
+    const userRecords = records.filter(r => r.userId === userId);
+    const last7Days = userRecords.slice(-7);
     
     return {
       labels: last7Days.map(r => r.date.slice(5)), // 只显示月-日
@@ -280,7 +358,8 @@ App({
   },
   
   globalData: {
-    userInfo: null,
+    user: null, // 新增：存储当前登录用户信息
+    userInfo: null, // 原有：本地用户信息
     windowHeight: 0,
     windowWidth: 0,
     activeLogTab: 'pain', // 当前激活的记录标签
