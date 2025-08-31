@@ -1,0 +1,19 @@
+<view class="chart-container">
+  <canvas canvas-id="recoveryChart" style="width: 100%; height: 100%;"></canvas>
+  
+  <!-- 图例 -->
+  <view class="chart-legend" style="display: flex; justify-content: center; margin-top: 12px; gap: 20px;">
+    <view style="display: flex; align-items: center;">
+      <view style="width: 12px; height: 12px; background-color: var(--pain); border-radius: 2px; margin-right: 6px;"></view>
+      <text style="font-size: 12px; color: var(--gray-dark);">疼痛评分</text>
+    </view>
+    <view style="display: flex; align-items: center;">
+      <view style="width: 12px; height: 12px; background-color: var(--primary); border-radius: 2px; margin-right: 6px;"></view>
+      <text style="font-size: 12px; color: var(--gray-dark);">屈膝角度(°)</text>
+    </view>
+    <view style="display: flex; align-items: center;">
+      <view style="width: 12px; height: 12px; background-color: var(--secondary); border-radius: 2px; margin-right: 6px;"></view>
+      <text style="font-size: 12px; color: var(--gray-dark);">股四头肌(级)</text>
+    </view>
+  </view>
+</view>

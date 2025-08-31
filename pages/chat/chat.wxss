@@ -1,0 +1,104 @@
+/* 顶部医生信息栏 */
+.doctor-header {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  background-color: #6d88ff;
+  color: white;
+}
+.doctor-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.doctor-info .doctor-name {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+.doctor-info .doctor-status {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* 聊天消息列表 */
+.message-list {
+  flex: 1;
+  padding: 20rpx;
+  box-sizing: border-box;
+  background-color: #F5F5F5;
+  height: calc(100vh - 200rpx); /* 适配高度 */
+}
+.message-item {
+  display: flex;
+  margin-bottom: 30rpx;
+  align-items: flex-start;
+}
+.message-item.doctor .avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.message-item.patient {
+  justify-content: flex-end;
+}
+.message-item.patient .avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-left: 20rpx;
+}
+.message-content {
+  max-width: 600rpx;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  line-height: 40rpx;
+}
+.message-item.doctor .message-content {
+  background-color: white;
+  color: #333;
+}
+.message-item.patient .message-content {
+  background-color: #87CEEB;
+  color: white;
+}
+.message-time {
+  font-size: 24rpx;
+  opacity: 0.7;
+  margin-top: 10rpx;
+  display: block;
+}
+
+/* 底部输入栏 */
+.input-bar {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  background-color: white;
+  border-top: 1rpx solid #E5E5E5;
+}
+.input-icons image {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+.input-box {
+  flex: 1;
+  height: 80rpx;
+  border: 1rpx solid #E5E5E5;
+  border-radius: 40rpx;
+  padding: 0 20rpx;
+  margin: 0 20rpx;
+  box-sizing: border-box;
+}
+.send-btn {
+  width: 120rpx;
+  height: 60rpx;
+  background-color: #3a88ee;
+  color: white;
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

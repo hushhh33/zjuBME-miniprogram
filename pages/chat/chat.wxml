@@ -1,0 +1,50 @@
+<!-- 顶部医生信息栏 -->
+<view class="doctor-header">
+  <image class="doctor-avatar" src="/images/doctor-avatar.png"></image>
+  <view class="doctor-info">
+    <text class="doctor-name">李医生</text>
+    <text class="doctor-status">在线 · 骨科主任医师</text>
+  </view>
+</view>
+
+<!-- 聊天消息列表 -->
+<scroll-view 
+  class="message-list" 
+  scroll-y 
+  scroll-into-view="{{scrollIntoView}}" 
+  scroll-with-animation
+>
+  <!-- 医生消息 -->
+  <view class="message-item doctor" wx:for="{{messages}}" wx:key="index">
+    <image class="avatar" src="/images/doctor-avatar.png"></image>
+    <view class="message-content">
+      <text>{{item.content}}</text>
+      <text class="message-time">{{item.time}}</text>
+    </view>
+  </view>
+
+  <!-- 患者消息 -->
+  <view class="message-item patient" wx:for="{{messages}}" wx:key="index" wx:if="{{item.from === 'patient'}}">
+    <view class="message-content">
+      <text>{{item.content}}</text>
+      <text class="message-time">{{item.time}}</text>
+    </view>
+    <image class="avatar" src="/images/patient-avatar.png"></image>
+  </view>
+</scroll-view>
+
+<!-- 底部输入栏 -->
+<view class="input-bar">
+  <view class="input-icons">
+    <image src="/images/attach-icon.png" bindtap="chooseImage"></image>
+    <image src="/images/image-icon.png" bindtap="chooseImage"></image>
+    <image src="/images/file-icon.png" bindtap="chooseFile"></image>
+  </view>
+  <input 
+    class="input-box" 
+    placeholder="输入消息..." 
+    bindinput="inputChange" 
+    value="{{inputValue}}"
+  />
+  <button class="send-btn" bindtap="sendMessage">发送</button>
+</view>
