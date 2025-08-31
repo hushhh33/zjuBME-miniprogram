@@ -43,29 +43,35 @@ Page({
 
   async queryDataByUserId() {
     try {
-    //此处需要插入根据userid的查找
-    
-    const [patientRes, recoverRes] = await Promise.all([
-      this.queryPatientTable(userId), // 查询 Patient 表
-      this.queryRecoverTable(userId)  // 查询 Recover 表
-    ]);
-
-    //处理查询结果，更新数据
-    this.setData({
-      patientData: patientRes,
-      recoverData: recoverRes,
-      isLoading: false
-    });
-  } catch (error) {
-    // 4. 错误处理
-    this.setData({
-      isLoading: false,
-      hasError: true,
-      errorMsg: error.message || '数据查询失败'
-    });
-    console.error('查询数据出错：', error);
-  }
-},
+      // 新增：获取userId（从全局变量或本地存储）
+      const userId = app.globalData.userId || wx.getStorageSync('userId');
+      if (!userId) {
+        throw new Error('未获取到用户信息，请先登录');
+      }
+  
+      const [patientRes, recoverRes] = await Promise.all([
+        this.queryPatientTable(userId),
+        this.queryRecoverTable(userId)
+      ]);
+  
+      // 处理查询结果（注意：AV.Object需要通过toJSON()转换为普通对象）
+      this.setData({
+        patientData: patientRes ? patientRes.toJSON() : null,
+        recoverData: recoverRes.map(item => item.toJSON()), // 转换为JSON数组
+        isLoading: false
+      });
+  
+      // 数据加载完成后初始化图表
+      this.initChart(); 
+    } catch (error) {
+      this.setData({
+        isLoading: false,
+        hasError: true,
+        errorMsg: error.message || '数据查询失败'
+      });
+      console.error('查询数据出错：', error);
+    }
+  },
 
 async queryPatientTable(userId) {
   const query = new AV.Query('Patient'); // 创建 Patient 表的查询对象

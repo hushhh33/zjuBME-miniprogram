@@ -181,6 +181,14 @@ Page({
   },
 
   async saveInfoToCloud() {
+    const userId = app.globalData.userId || wx.getStorageSync('userId');
+  if (!userId) {
+    wx.showToast({
+      title: '请先登录',
+      icon: 'none'
+    });
+    return;
+  }
     const {
       name,
       gender,
@@ -219,6 +227,7 @@ Page({
       const patient = new AV.Object('Patient');
 
       // 设置患者基础信息
+      patient.set("userId",userId);
       patient.set('name', name);
       patient.set('gender', gender);
       patient.set('age', age);

@@ -79,11 +79,14 @@ Page({
     
     // 加载最新的记录数据
     loadLatestRecords() {
-      const records = wx.getStorageSync('recoveryRecords') || [];
-      if (records.length === 0) return;
+      const userId = app.globalData.userId || wx.getStorageSync('userId');
+      if (!userId) return; // 未登录则不加载
+      const allRecords = wx.getStorageSync('recoveryRecords') || [];
+      // 筛选当前用户的记录
+      const userRecords = allRecords.filter(record => record.userId === userId);
+      if (userRecords.length === 0) return;
       
-      const latestRecord = records[records.length - 1];
-      
+      const latestRecord = userRecords[userRecords.length - 1];
       // 设置疼痛记录初始值
       if (latestRecord.pain) {
         this.setData({
@@ -210,6 +213,11 @@ Page({
       const records = wx.getStorageSync('recoveryRecords') || [];
       let todayRecordIndex = records.findIndex(record => record.date === today);
       
+      const userId = app.globalData.userId || wx.getStorageSync("userId");
+      if(!userId){
+        wx.showToast({title:"请先登录",icon:"none"});
+        return;
+      }
       const painData = {
         rest: this.data.restPain,
         activity: this.data.activityPain,
@@ -225,9 +233,11 @@ Page({
       
       if (todayRecordIndex !== -1) {
         records[todayRecordIndex].pain = painData;
+        records[todayRecordIndex].userId = userId;
       } else {
         records.push({
           date: today,
+          userId:userId,
           pain: painData,
           rangeOfMotion: {},
           muscleStrength: {},
@@ -241,7 +251,8 @@ Page({
       wx.showToast({ title: '疼痛记录已保存', icon: 'success', duration: 2000 });
       setTimeout(() => wx.navigateBack({ delta: 1 }), 2000);
     },
-    
+
+
     // ====================== 活动度记录相关方法 ======================
     onFlexionAngleChange(e) {
       this.setData({
@@ -665,6 +676,7 @@ Page({
 
 //保存到云端
 async saveInfoToCloud(){
+  
     const{
             restPain,
             activityPain,
@@ -707,6 +719,7 @@ async saveInfoToCloud(){
             woundStatus,
             woundNotes,
 woundImages,
+userId,
  
     }=this.data;
     update:{
@@ -742,6 +755,7 @@ woundImages,
         recover.set('jianOptions',this.data.jianOptions[jianStrength]);
         recover.set('feeling',this.data.feelingOptions[feeling]);
         recover.set('woundImages',woundImages);
+        recover.set('userId',userId);
     await recover.save();
 
     wx.showToast({
